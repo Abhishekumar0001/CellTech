@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { BatchDialogComponent } from './batch-dialog/batch-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'batch-list';
+  constructor(private readonly dialog: MatDialog) { }
+  openBatchDialog() {
+    this.dialog.open(BatchDialogComponent, {
+      disableClose: true,
+      panelClass: 'custom-dialog-panel',
+      backdropClass: 'custom-dialog-backdrop'
+    });
+  }
 }
