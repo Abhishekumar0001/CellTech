@@ -1,0 +1,35 @@
+<div>
+    <div class="create-batch-container">
+        <button mat-raised-button color="primary" class="create-batch-button" (click)="openBatchDialog()">
+            Create Batch
+        </button>
+    </div>
+    <div *ngFor="let batch of batches; let i = index" class="batch-table">
+        <h3>Parts Batch {{ i + 1 }}</h3>
+        <table mat-table [dataSource]="batch.parts" class="mat-elevation-z8 full-width">
+            <ng-container matColumnDef="partName">
+                <th mat-header-cell *matHeaderCellDef>Part Name</th>
+                <td mat-cell *matCellDef="let element"
+                    [ngClass]="{'removed': element.removed && (element?.removedFromBatch === i+1)}">
+                    {{ element.removed && (element?.removedFromBatch !== i+1) ? element.partName + ' removed from batch
+                    '
+                    +
+                    element.removedFromBatch :
+                    element.partName }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="price">
+                <th mat-header-cell *matHeaderCellDef>Price</th>
+                <td mat-cell *matCellDef="let element">{{ element.price }}</td>
+            </ng-container>
+            <ng-container matColumnDef="time">
+                <th mat-header-cell *matHeaderCellDef>Time</th>
+                <td mat-cell *matCellDef="let element">{{ element.time }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                [ngClass]="{ 'removed': row.removedFromBatch === i+1 }">
+            </tr>
+        </table>
+    </div>
+</div>
