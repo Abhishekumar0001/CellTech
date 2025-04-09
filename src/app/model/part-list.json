@@ -1,0 +1,46 @@
+[
+    {
+        "partName": "Antenna",
+        "price": 15
+    },
+    {
+        "partName": "Drive XTP",
+        "price": 49
+    },
+    {
+        "partName": "Keyboard",
+        "price": 25
+    },
+    {
+        "partName": "LCD",
+        "price": 119
+    },
+    {
+        "partName": "System board Test 1",
+        "price": 80
+    },
+    {
+        "partName": "System board Test 2",
+        "price": 87
+    },
+    {
+        "partName": "System board Test 3",
+        "price": 97
+    },
+    {
+        "partName": "System board Test 4",
+        "price": 110
+    },
+    {
+        "partName": "System board Test 5",
+        "price": 60
+    },
+    {
+        "partName": "System board Test 6",
+        "price": 78
+    },
+    {
+        "partName": "System board Test 7",
+        "price": 96
+    }
+]

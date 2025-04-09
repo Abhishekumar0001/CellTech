@@ -9,11 +9,10 @@ import { Part } from '../model/batch-part.model';
   styleUrls: ['./batch-list.component.scss']
 })
 export class BatchListComponent {
-  removedPartNames: Set<string> = new Set();
+  removedPartNames: Set<string> = new Set(); // store removed part and pass it to the dialog component
+  addedParts: Set<string> = new Set(); // store added parts and pass it to the dialog component
   displayedColumns: string[] = ['partName', 'price', 'time'];
-  batches: any[] = [];
-  addedParts: Set<string> = new Set();
-  removedParts: Part[] = [];
+  batches: { parts: Part[] }[] = []; // Array to store batches with the format [{parts:[partName:string,price:number]}]
   constructor(private dialog: MatDialog) { }
   openBatchDialog(): void {
     const dialogRef = this.dialog.open(BatchDialogComponent, {
@@ -25,16 +24,15 @@ export class BatchListComponent {
         removedPartNames: Array.from(this.removedPartNames)
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(result => { // Handle the result from the dialog which the selectedPart
       if (result) {
         const timestamp = new Date().toLocaleString();
-        // STEP 1: Handle removal logic BEFORE creating the new batch
         result.forEach((part: Part) => {
           if (part.removed) {
             const originalBatchIndex = this.batches.findIndex(batch =>
               batch.parts.some((p: any) => p.partName === part.partName && !p.removed)
             );
-            if (originalBatchIndex !== -1) {
+            if (originalBatchIndex !== -1) {  // This represent the batch index where the part was originally added
               const originalBatchId = originalBatchIndex + 1;
               part.removedFromBatch = originalBatchId;
               // Mark as removed in the original batch
@@ -44,18 +42,15 @@ export class BatchListComponent {
                   p.removedFromBatch = originalBatchIndex + 1;
                 }
               });
-              // Track part name globally as removed
-              this.removedPartNames.add(part.partName);
+              this.removedPartNames.add(part.partName); // store removed part name
             }
           }
         });
-        // STEP 2: Create and push new batch
         const parts = result.map((p: Part) => ({
           ...p,
           time: p.removed ? '' : timestamp,
         }));
         this.batches.push({ parts });
-        // STEP 3: Track added parts
         result.forEach((p: any) => {
           if (!p.removed) {
             this.addedParts.add(p.partName);

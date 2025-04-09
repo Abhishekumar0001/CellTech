@@ -2,10 +2,9 @@
 <mat-dialog-content>
     <mat-form-field appearance="outline" class="search-box">
         <mat-label>Search Part here</mat-label>
-        <input matInput [formControl]="searchControl"/>
+        <input matInput [formControl]="searchControl" />
     </mat-form-field>
     <table mat-table [dataSource]="partsList" class="mat-elevation-z2 full-width">
-        <!-- Table columns stay the same -->
         <ng-container matColumnDef="partName">
             <th mat-header-cell *matHeaderCellDef>Part Name</th>
             <td mat-cell *matCellDef="let part">{{ part.partName }}</td>
@@ -17,7 +16,6 @@
         <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef>Action</th>
             <td mat-cell *matCellDef="let part">
-                <!-- Show Add button only if the part was not previously added -->
                 <button *ngIf="!wasPreviouslyAdded(part.partName)" mat-button class="add-btn" (click)="addPart(part)"
                     [disabled]="isDisabled(part.partName)">
                     Add
@@ -35,5 +33,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button (click)="cancel()">Cancel</button>
-    <button mat-button color="primary" (click)="save()">Save</button>
+    <button mat-button color="primary" [disabled]="!isPartAddedOrRemoved()" (click)="save()">Save</button>
 </mat-dialog-actions>
